@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     String operator;
+    String secondOperandText;
     double result;
 
     EditText secondOperandEditText;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void eqClick(View view){
 
-        double secondOperand = Double.parseDouble(secondOperandEditText.getText().toString());
+        double secondOperand = Double.parseDouble(secondOperandText);
 
         switch (operator){
             case "+":
@@ -54,26 +55,26 @@ public class MainActivity extends AppCompatActivity {
 
         this.operator = operatorChosen;
 
+        checkEqualButton();
+
         Log.i("New Operator Chosen", this.operator);
 
     }
 
-    // This method checks if the given CharSequence's length is 0 (the EditText is empty) to disable or enable the Equal button
-    public boolean checkEditText(CharSequence s){
+    // This method checks if equal button should be enabled
+    public void checkEqualButton(){
 
         boolean status = true;
 
-        if (operator == null){ // Automatically disable if no operator has been chosen
+        if (operator == null){ // Disable if no operator has been chosen
             status = false;
         }
-        if (s.length() == 0) {
+        if (secondOperandText.length() == 0) { // Disable if the second operand field is empty
             status = false;
         }
 
         eqButton.setClickable(status);
         Log.i("Equal Button Status", String.valueOf(status));
-
-        return status;
     }
 
     @Override
@@ -100,18 +101,20 @@ public class MainActivity extends AppCompatActivity {
         secondOperandEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                checkEditText(s);
+                secondOperandText = s.toString();
+                checkEqualButton();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i("Text Changed", s.toString());
-                checkEditText(s);
+                secondOperandText = s.toString();
+                checkEqualButton();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                checkEditText(s);
+                secondOperandText = s.toString();
+                checkEqualButton();
             }
         });
     }
