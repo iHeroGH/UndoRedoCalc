@@ -46,9 +46,18 @@ public class MainActivity extends AppCompatActivity {
 
         resultTextView.setText("Result = " + Double.toString(result));
 
+        clearVars();
+
         Log.i("Equal Clicked - New Result", String.valueOf(result));
     }
 
+    // Clear the vars after equal button is pressed
+    public void clearVars(){
+        secondOperandEditText.setText("");
+        operator = null;
+    }
+
+    // Set the new operator whenever an operator is clicked
     public void operClick(View view){
 
         String operatorChosen = ((Button) view).getText().toString();
