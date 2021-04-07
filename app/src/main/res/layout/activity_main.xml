@@ -11,10 +11,10 @@
         android:layout_width="134dp"
         android:layout_height="32dp"
         android:layout_marginStart="141dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="141dp"
         android:layout_marginBottom="671dp"
-        android:text="Result = 1"
+        android:text="Result = "
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,11 +23,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/secondOperandEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
         android:hint="Enter Second Operand"
@@ -44,7 +44,7 @@
         android:layout_marginTop="20dp"
         android:text="Undo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/secondOperandEdit" />
 
     <Button
         android:id="@+id/redoButton"
@@ -54,9 +54,10 @@
         android:layout_marginEnd="5dp"
         android:text="Redo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/secondOperandEdit" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="1dp"
@@ -65,7 +66,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toStartOf="@+id/redoButton"
         app:layout_constraintStart_toEndOf="@+id/undoButton"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber">
+        app:layout_constraintTop_toBottomOf="@+id/secondOperandEdit">
 
         <Button
             android:id="@+id/plusButton"
