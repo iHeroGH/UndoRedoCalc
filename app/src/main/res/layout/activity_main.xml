@@ -112,5 +112,287 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:background="#000000"
+        android:backgroundTint="#000000"
+        android:isScrollContainer="false"
+        app:columnCount="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:rowCount="6">
+
+        <Button
+            android:id="@+id/grid0"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid1"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid2"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid3"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid4"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid5"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid6"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid7"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid8"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid9"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid10"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid11"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid12"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid13"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid14"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid15"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid16"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid17"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid18"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid19"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid20"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid21"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid22"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/grid23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center|fill_vertical"
+            app:layout_rowWeight="1"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="5dp" />
+
+    </androidx.gridlayout.widget.GridLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
