@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addToGrid(String operator, String secondOperandText, boolean resetIndex) {
-        Button gridButton = findFirstOpenButton();
+        Button gridButton = findViewById(gridButtons[findFirstOpenButton()]);
         gridButton.setText(operator + secondOperandText);
         fixTextSize(gridButton);
         gridButton.setVisibility(View.VISIBLE);
@@ -216,19 +216,11 @@ public class MainActivity extends AppCompatActivity {
         return -1;
     }
 
-    public int lastVisibleIndex(){
-        for(int i = 0; i < gridButtons.length; i++){
-            if (((Button) findViewById(gridButtons[i+1])).getVisibility() == View.INVISIBLE){
-                return i;
-            }
-        }
-        return 24;
-    }
 
     public void actionIndexChange(boolean increase){
         Log.i("Starting Action Index", String.valueOf(actionIndex));
         if (increase) {
-            actionIndex = Math.min(actionIndex+1, lastVisibleIndex());
+            actionIndex = Math.min(actionIndex+1, findFirstOpenButton());
         } else{
             actionIndex = Math.max(actionIndex-1, 0);
         }
@@ -247,22 +239,22 @@ public class MainActivity extends AppCompatActivity {
         Log.i("New Text Size", "Button" + button.getId() + " size " + newSize);
     }
 
-    // Returns the ID of the first available button
-    public Button findFirstOpenButton(){
-        for(int id : gridButtons){
-            Button gridButton = (Button) findViewById(id);
+    // Returns the index of the first available button
+    public int findFirstOpenButton(){
+        for(int i = 0; i < gridButtons.length; i++){
+            Button gridButton = (Button) findViewById(gridButtons[i]);
             // Return first invisible button
             if(gridButton.getVisibility() == View.INVISIBLE){
-                return gridButton;
+                return i;
             }
         }
         // If none are invisible, return the oldest visible button
-        for(int id : gridButtons){
-            Button gridButton = (Button) findViewById(id);
+        for(int i = 0; i < gridButtons.length; i++){
+            Button gridButton = (Button) findViewById(gridButtons[i]);
             if (Integer.parseInt(gridButton.getTag().toString()) < changeCounter){
                 gridButton.setTag(changeCounter);
                 Log.i("New Tag Set", "Button" + gridButton.getId() + " tag " + changeCounter);
-                return gridButton;
+                return i;
             }
         }
         // All the buttons have been changed changeCounter amount of times, increase the change counter and re-find a button
@@ -342,6 +334,9 @@ public class MainActivity extends AppCompatActivity {
         int index = actionIndex;
         if(identifier.equals("redo")){
             index = actionIndex-1;
+        }
+        if (index < 0){
+            index = 24 + index;
         }
         View focusButton = findViewById(gridButtons[index]);
         Log.i("Applying " + identifier, String.valueOf(actionIndex));
