@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Button eqButton;
 
     // Grid Buttons
-    int[] gridButtons;
+    ArrayList<Integer> gridButtons = new ArrayList<Integer>();
     int changeCounter = 1;
 
     // Undo/Redo
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("Grid button Clicked - New Result", String.valueOf(result));
     }
 
-    public void gridButtonClick(View view, String identifier, boolean popButton){
+    public void gridButtonClick(View view, String identifier, boolean addButton){
         boolean opposite;
         if(identifier.equals("undo")){
             opposite = true;
@@ -59,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         }
         String applied = applyOperation(view, opposite);
 
-        addToGrid(applied.substring(0,1), applied.substring(1), false);
+        if (addButton) {
+            addToGrid(applied.substring(0, 1), applied.substring(1), false);
+        }
 
         resultTextView.setText("Result = " + Double.toString(result));
 
@@ -75,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     public void setEmptyButtonInvis(){
-        for(int i = 0; i < gridButtons.length; i++){
-            Button currButton = (Button) findViewById(gridButtons[i]);
+        for(int i = 0; i < gridButtons.size(); i++){
+            Button currButton = (Button) findViewById(gridButtons.get(i));
             if (currButton.getText() == "" && currButton.getVisibility() == View.VISIBLE){
                 currButton.setVisibility(View.INVISIBLE);
             }
@@ -87,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
         Button pressedButton = (Button) view;
         // Find the pressed button in the array
         int index = 0;
-        while(index < gridButtons.length){
+        while(index < gridButtons.size()){
             Log.i("Finding Grid Index", String.valueOf(index));
-            if(gridButtons[index] != pressedButton.getId()){
+            if(gridButtons.get(index) != pressedButton.getId()){
                 index++;
             }
             return index;
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addToGrid(String operator, String secondOperandText, boolean resetIndex) {
-        Button gridButton = findViewById(gridButtons[findFirstOpenButton()]);
+        Button gridButton = findViewById(gridButtons.get(findFirstOpenButton()));
         gridButton.setText(operator + secondOperandText);
         fixTextSize(gridButton);
         gridButton.setVisibility(View.VISIBLE);
@@ -208,8 +209,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Returns the index of a grid button
     public int buttonIndex(Button gridButton){
-        for(int i = 0; i < gridButtons.length; i++){
-            if(gridButtons[i] == gridButton.getId()){
+        for(int i = 0; i < gridButtons.size(); i++){
+            if(gridButtons.get(i) == gridButton.getId()){
                 return i+1;
             }
         }
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
     public void actionIndexChange(boolean increase){
         Log.i("Starting Action Index", String.valueOf(actionIndex));
         if (increase) {
-            actionIndex = Math.min(actionIndex+1, findFirstOpenButton());
+            actionIndex = actionIndex+1;
         } else{
             actionIndex = Math.max(actionIndex-1, 0);
         }
@@ -241,16 +242,16 @@ public class MainActivity extends AppCompatActivity {
 
     // Returns the index of the first available button
     public int findFirstOpenButton(){
-        for(int i = 0; i < gridButtons.length; i++){
-            Button gridButton = (Button) findViewById(gridButtons[i]);
+        for(int i = 0; i < gridButtons.size(); i++){
+            Button gridButton = (Button) findViewById(gridButtons.get(i));
             // Return first invisible button
             if(gridButton.getVisibility() == View.INVISIBLE){
                 return i;
             }
         }
         // If none are invisible, return the oldest visible button
-        for(int i = 0; i < gridButtons.length; i++){
-            Button gridButton = (Button) findViewById(gridButtons[i]);
+        for(int i = 0; i < gridButtons.size(); i++){
+            Button gridButton = (Button) findViewById(gridButtons.get(i));
             if (Integer.parseInt(gridButton.getTag().toString()) < changeCounter){
                 gridButton.setTag(changeCounter);
                 Log.i("New Tag Set", "Button" + gridButton.getId() + " tag " + changeCounter);
@@ -302,14 +303,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkUndoRedo(){
-        if (((Button) findViewById(gridButtons[getActionIndex("before")])).getVisibility() == View.VISIBLE){
+        if (actionIndex == 0) {
+            undoButton.setClickable(false);
+            Log.i("Undo Button Clickable", "Disabled");
+        } else if (((Button) findViewById(gridButtons.get(getActionIndex("before")))).getVisibility() == View.VISIBLE){
             undoButton.setClickable(true);
             Log.i("Undo Button Clickable", "Enabled");
         } else{
             undoButton.setClickable(false);
             Log.i("Undo Button Clickable", "Disabled");
         }
-        if (((Button) findViewById(gridButtons[getActionIndex("next")])).getVisibility() == View.VISIBLE){
+        if(actionIndex == gridButtons.size()-1){
+            redoButton.setClickable(false);
+            Log.i("Redo Button Clickable", "Disabled");
+        } else if (((Button) findViewById(gridButtons.get(getActionIndex("next")))).getVisibility() == View.VISIBLE){
             redoButton.setClickable(true);
             Log.i("Redo Button Clickable", "Enabled");
 
@@ -336,24 +343,22 @@ public class MainActivity extends AppCompatActivity {
             index = actionIndex-1;
         }
         if (index < 0){
-            index = 24 + index;
+            index = gridButtons.size() + index;
         }
-        View focusButton = findViewById(gridButtons[index]);
+        View focusButton = findViewById(gridButtons.get(index));
         Log.i("Applying " + identifier, String.valueOf(actionIndex));
-        gridButtonClick(focusButton, identifier, false);
+        boolean addButton = true;
+//        if(identifier.equals("redo")) {
+//            addButton = false;
+//        }
+        gridButtonClick(focusButton, identifier, addButton);
     }
 
     public int getActionIndex(String identifier){
         if(identifier.equals("before")){
-            if(actionIndex == 0){
-                return 23; // Last button
-            }
             return actionIndex-1;
         }
         else{
-            if (actionIndex == 24){
-                return 0;
-            }
             return actionIndex;
         }
     }
@@ -364,7 +369,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize an array of int IDs for the buttons in the grid view
-        gridButtons = new int[]{R.id.grid0, R.id.grid1, R.id.grid2, R.id.grid3, R.id.grid4, R.id.grid5, R.id.grid6, R.id.grid7, R.id.grid8, R.id.grid9, R.id.grid10, R.id.grid11, R.id.grid12, R.id.grid13, R.id.grid14, R.id.grid15, R.id.grid16, R.id.grid17, R.id.grid18, R.id.grid19, R.id.grid20, R.id.grid21, R.id.grid22, R.id.grid23};
+        int[] gridButtonsArray = new int[]{R.id.grid0, R.id.grid1, R.id.grid2, R.id.grid3, R.id.grid4, R.id.grid5, R.id.grid6, R.id.grid7, R.id.grid8, R.id.grid9, R.id.grid10, R.id.grid11, R.id.grid12, R.id.grid13, R.id.grid14, R.id.grid15, R.id.grid16, R.id.grid17, R.id.grid18, R.id.grid19, R.id.grid20, R.id.grid21, R.id.grid22, R.id.grid23};
+        for(int id : gridButtonsArray){
+            gridButtons.add(id);
+        }
 
         // Set our button and the EditText variables
         secondOperandEditText = (EditText) findViewById(R.id.secondOperandEdit);
