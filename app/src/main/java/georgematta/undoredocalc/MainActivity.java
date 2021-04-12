@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     int[] gridButtons;
     int changeCounter = 1;
 
+    // Undo/Redo
+    int actionIndex;
+
     public void gridButtonClick(View view){
         String applied = applyOperation(view, true);
 
@@ -165,6 +168,29 @@ public class MainActivity extends AppCompatActivity {
         gridButton.setText(operator + secondOperandText);
         fixTextSize(gridButton);
         gridButton.setVisibility(View.VISIBLE);
+        actionIndex = buttonIndex(gridButton);
+        checkUndoRedo();
+        Log.i("Action Index Changed (Grid)", String.valueOf(actionIndex));
+    }
+
+    // Returns the index of a grid button
+    public int buttonIndex(Button gridButton){
+        for(int i = 0; i < gridButtons.length; i++){
+            if(gridButtons[i] == gridButton.getId()){
+                return i+1;
+            }
+        }
+        return -1;
+    }
+
+    public void actionIndexChange(boolean increase){
+        if (increase) {
+            actionIndex = Math.min(actionIndex+1, 23);
+        } else{
+            actionIndex = Math.max(actionIndex-1, 0);
+        }
+        Log.i("Action Index Changed", String.valueOf(actionIndex));
+        checkUndoRedo();
     }
 
     // Numbers that are too big occasionally break the grid view, we reduce the text size of larger numbers linearly (y=mx+b / y = -2.2x + 27)
@@ -240,6 +266,47 @@ public class MainActivity extends AppCompatActivity {
         Log.i("Equal Button Status", String.valueOf(status));
     }
 
+    public void checkUndoRedo(){
+        if (((Button) findViewById(gridButtons[getActionIndex("before")])).getVisibility() == View.VISIBLE){
+            undoButton.setClickable(true);
+            Log.i("Undo Button Clickable", "Enabled");
+        } else{
+            undoButton.setClickable(false);
+            Log.i("Undo Button Clickable", "Disabled");
+        }
+        if (((Button) findViewById(gridButtons[getActionIndex("next")])).getVisibility() == View.VISIBLE){
+            redoButton.setClickable(true);
+            Log.i("Redo Button Clickable", "Enabled");
+
+        } else {
+            redoButton.setClickable(false);
+            Log.i("Redo Button Clickable", "Disabled");
+        }
+    }
+
+    public void undoClick(View view){
+        actionIndexChange(false);
+    }
+
+    public void redoClick(View view){
+        actionIndexChange(true);
+    }
+
+    public int getActionIndex(String identifier){
+        if(identifier.equals("before")){
+            if(actionIndex == 0){
+                return 23; // Last button
+            }
+            return actionIndex-1;
+        }
+        else{
+            if (actionIndex == 24){
+                return 0;
+            }
+            return actionIndex;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -262,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
         eqButton.setClickable(false);
         undoButton.setClickable(false);
         redoButton.setClickable(false);
+        actionIndex = 0;
 
         // Create the EditText listener
         secondOperandEditText.addTextChangedListener(new TextWatcher() {
