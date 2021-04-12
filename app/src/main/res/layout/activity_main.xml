@@ -131,6 +131,7 @@
         <Button
             android:id="@+id/grid0"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:textSize="27sp"
             android:visibility="invisible"
@@ -143,6 +144,7 @@
         <Button
             android:id="@+id/grid1"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:textSize="27sp"
             android:visibility="invisible"
@@ -155,6 +157,7 @@
         <Button
             android:id="@+id/grid2"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:textSize="27sp"
             android:visibility="invisible"
@@ -167,6 +170,7 @@
         <Button
             android:id="@+id/grid3"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:textSize="27sp"
             android:visibility="invisible"
@@ -179,6 +183,7 @@
         <Button
             android:id="@+id/grid4"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -192,6 +197,7 @@
         <Button
             android:id="@+id/grid5"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -205,6 +211,7 @@
         <Button
             android:id="@+id/grid6"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -218,6 +225,7 @@
         <Button
             android:id="@+id/grid7"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -231,6 +239,7 @@
         <Button
             android:id="@+id/grid8"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -244,6 +253,7 @@
         <Button
             android:id="@+id/grid9"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -257,6 +267,7 @@
         <Button
             android:id="@+id/grid10"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -270,6 +281,7 @@
         <Button
             android:id="@+id/grid11"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -283,6 +295,7 @@
         <Button
             android:id="@+id/grid12"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -296,6 +309,7 @@
         <Button
             android:id="@+id/grid13"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -309,6 +323,7 @@
         <Button
             android:id="@+id/grid14"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -322,6 +337,7 @@
         <Button
             android:id="@+id/grid15"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -335,6 +351,7 @@
         <Button
             android:id="@+id/grid16"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -348,6 +365,7 @@
         <Button
             android:id="@+id/grid17"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -361,6 +379,7 @@
         <Button
             android:id="@+id/grid18"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -374,6 +393,7 @@
         <Button
             android:id="@+id/grid19"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -387,6 +407,7 @@
         <Button
             android:id="@+id/grid20"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -400,6 +421,7 @@
         <Button
             android:id="@+id/grid21"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -413,6 +435,7 @@
         <Button
             android:id="@+id/grid22"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
@@ -428,6 +451,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#000000"
+            android:onClick="gridButtonClick"
             android:tag="0"
             android:text=""
             android:textSize="27sp"
