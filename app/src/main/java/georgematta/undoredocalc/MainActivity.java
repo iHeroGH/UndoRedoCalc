@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         resultTextView.setText("Result = " + Double.toString(result));
 
-        addToGrid(applied.substring(0,1), applied.substring(1), false);
-        setEmptyButtonInvis();
+        //addToGrid(applied.substring(0,1), applied.substring(1), false);
+        moveFutureButtonsBack(view);
 
         checkUndoRedo();
 
@@ -69,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
         Log.i("Undo/Redo Operation - New Result", String.valueOf(result));
     }
 
-//    public void moveFutureButtonsBack(View view){
-//        int index = findGridIndex(view);
-//        recursiveRewrite(index, index);
-//        setEmptyButtonInvis();
-//    }
+    public void moveFutureButtonsBack(View view){
+        int index = findGridIndex(view);
+        recursiveRewrite(index, index);
+        setEmptyButtonInvis();
+    }
 
     public void setEmptyButtonInvis(){
         for(int i = 0; i < gridButtons.size(); i++){
@@ -99,22 +99,28 @@ public class MainActivity extends AppCompatActivity {
         return -1;
     }
 
-//    public void recursiveRewrite(int buttonIndex, int currIndex){
-//        Log.i("Recursive Rewrite", buttonIndex + " " + currIndex);
-//        if(buttonIndex == currIndex-22){ // Checks if we have reached the button before the one we're rewriting to
-//            return; // Stop rewriting
-//        }
-//        if(((Button) findViewById(gridButtons[currIndex])).getVisibility() == View.INVISIBLE) { // If the next button is invisible
-//            return;
-//        }
-//        Button currButton = (Button) findViewById(gridButtons[currIndex]);
-//        Button nextButton = (Button) findViewById(gridButtons[currIndex+1]);
-//
-//        currButton.setText(nextButton.getText());
-//        currButton.setTag(nextButton.getTag());
-//
-//        recursiveRewrite(buttonIndex, currIndex+1);
-//    }
+    public void recursiveRewrite(int buttonIndex, int currIndex){
+        Log.i("Recursive Rewrite", buttonIndex + " " + currIndex);
+        if(buttonIndex == currIndex-22){ // Checks if we have reached the button before the one we're rewriting to
+            return; // Stop rewriting
+        }
+
+        Button currButton = (Button) findViewById(gridButtons.get(currIndex));
+        Button nextButton = (Button) findViewById(gridButtons.get(currIndex+1));
+
+        if(nextButton.getVisibility() == View.INVISIBLE) { // If the next button is invisible
+            currButton.setVisibility(View.INVISIBLE);
+            currButton.setText("");
+            return;
+        }
+
+        currButton.setText(nextButton.getText());
+        currButton.setTag(nextButton.getTag());
+
+        setEmptyButtonInvis();
+
+        recursiveRewrite(buttonIndex, currIndex+1);
+    }
 
     public String applyOperation(View view, boolean opposite){
         String applied = "";
