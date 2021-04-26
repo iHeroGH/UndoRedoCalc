@@ -15,358 +15,27 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Values
-    String operator;
-    String secondOperandText;
-    double result;
+    // Handlers
+    private EqualHandler eqHandler;
+    private UndoRedoHandler unReHandler;
+    private InformationHandler infoHandler;
+    private GridHandler gridHandler;
 
-    // User Input and Output
-    EditText secondOperandEditText;
-    TextView resultTextView;
-
-    // Buttons
-    Button undoButton;
-    Button redoButton;
-    Button eqButton;
-
-    // Grid Buttons
-    ArrayList<Integer> gridButtons = new ArrayList<Integer>();
-    int changeCounter = 1;
-
-    // Undo/Redo
-    int actionIndex;
-
-    public void gridButtonClick(View view){
-        String applied = applyOperation(view, true);
-
-        resultTextView.setText("Result = " + Double.toString(result));
-
-        //addToGrid(applied.substring(0,1), applied.substring(1), false);
-        moveFutureButtonsBack(view);
-
-        checkUndoRedo();
-
-        Log.i("Grid button Clicked - New Result", String.valueOf(result));
-    }
-
-    public void gridButtonClick(View view, String identifier, boolean addButton){
-        boolean opposite;
-        if(identifier.equals("undo")){
-            opposite = true;
-        } else{
-            opposite = false;
-        }
-        String applied = applyOperation(view, opposite);
-
-        if (addButton) {
-            addToGrid(applied.substring(0, 1), applied.substring(1), false);
-        }
-
-        resultTextView.setText("Result = " + Double.toString(result));
-
-        checkUndoRedo();
-
-        Log.i("Undo/Redo Operation - New Result", String.valueOf(result));
-    }
-
-    public void moveFutureButtonsBack(View view){
-        int index = findGridIndex(view);
-        recursiveRewrite(index, index);
-        setEmptyButtonInvis();
-    }
-
-    public void setEmptyButtonInvis(){
-        for(int i = 0; i < gridButtons.size(); i++){
-            Button currButton = (Button) findViewById(gridButtons.get(i));
-            if (currButton.getText() == "" && currButton.getVisibility() == View.VISIBLE){
-                currButton.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
-    public int findGridIndex(View view){
-        Button pressedButton = (Button) view;
-        // Find the pressed button in the array
-        int index = 0;
-        while(index < gridButtons.size()){
-            Log.i("Finding Grid Index", String.valueOf(index));
-            if(gridButtons.get(index) == pressedButton.getId()){
-                return index;
-            }
-            index++;
-        }
-
-        return -1;
-    }
-
-    public void recursiveRewrite(int buttonIndex, int currIndex){
-        Log.i("Recursive Rewrite", buttonIndex + " " + currIndex);
-        if(buttonIndex == currIndex-22){ // Checks if we have reached the button before the one we're rewriting to
-            return; // Stop rewriting
-        }
-
-        Button currButton = (Button) findViewById(gridButtons.get(currIndex));
-        Button nextButton = (Button) findViewById(gridButtons.get(currIndex+1));
-
-        if(nextButton.getVisibility() == View.INVISIBLE) { // If the next button is invisible
-            currButton.setVisibility(View.INVISIBLE);
-            currButton.setText("");
-            return;
-        }
-
-        currButton.setText(nextButton.getText());
-        currButton.setTag(nextButton.getTag());
-
-        setEmptyButtonInvis();
-
-        recursiveRewrite(buttonIndex, currIndex+1);
-    }
-
-    public String applyOperation(View view, boolean opposite){
-        String applied = "";
-        double buttonNum = 0;
-        String buttonOperator = operator;
-        // Apply the chosen operation on the provided second operand
-        if (!opposite) {
-            if(((Button) view).getText().toString().equals("=")) {
-                buttonOperator = operator;
-                buttonNum = Double.parseDouble(secondOperandText);
-            } else{
-                Button gridButton = (Button) view;
-                String buttonText = gridButton.getText().toString();
-                buttonOperator = buttonText.substring(0, 1);
-                buttonNum = Double.parseDouble(buttonText.substring(1));
-            }
-            switch (buttonOperator) {
-                case "+":
-                    result += buttonNum;
-                    applied = "+" +  (int) buttonNum;
-                    break;
-                case "-":
-                    result -= buttonNum;
-                    applied = "-" +  (int) buttonNum;
-                    break;
-                case "*":
-                    result *= buttonNum;
-                    applied = "*" +  (int) buttonNum;
-                    break;
-                case "/":
-                    result /= buttonNum;
-                    applied = "/" +  (int) buttonNum;
-                    break;
-            }
-        }
-
-        // If we're removing something from the GridView
-        else{
-            Button gridButton = (Button) view;
-            String buttonText = gridButton.getText().toString();
-            buttonOperator = buttonText.substring(0, 1);
-            buttonNum = Double.parseDouble(buttonText.substring(1));
-            switch (buttonOperator) {
-                case "+":
-                    result -= buttonNum;
-                    applied = "-" + (int) buttonNum;
-                    break;
-                case "-":
-                    result += buttonNum;
-                    applied = "+" +  (int) buttonNum;
-                    break;
-                case "*":
-                    result /= buttonNum;
-                    applied = "/" +  (int) buttonNum;
-                    break;
-                case "/":
-                    result *= buttonNum;
-                    applied = "*" +  (int) buttonNum;
-                    break;
-            }
-        }
-
-        Log.i("Applied Operation", applied);
-        return applied;
-    }
-
+    // Re-reference the click methods
     public void eqClick(View view){
-
-        applyOperation(view,false);
-
-        resultTextView.setText("Result = " + Double.toString(result));
-
-        addToGrid(operator, secondOperandText, true);
-
-        clearVars();
-
-        Log.i("Equal Clicked - New Result", String.valueOf(result));
+        eqHandler.eqClick(view);
     }
-
-    public void addToGrid(String operator, String secondOperandText, boolean resetIndex) {
-        Button gridButton = findViewById(gridButtons.get(findFirstOpenButton()));
-        gridButton.setText(operator + secondOperandText);
-        fixTextSize(gridButton);
-        gridButton.setVisibility(View.VISIBLE);
-        if (resetIndex) {
-            actionIndex = buttonIndex(gridButton);
-            Log.i("Action Index Changed (Grid)", String.valueOf(actionIndex));
-        }
-        checkUndoRedo();
-        Log.i("New Button Added", gridButton.getText().toString());
-    }
-
-    // Returns the index of a grid button
-    public int buttonIndex(Button gridButton){
-        for(int i = 0; i < gridButtons.size(); i++){
-            if(gridButtons.get(i) == gridButton.getId()){
-                return i+1;
-            }
-        }
-        return -1;
-    }
-
-
-    public void actionIndexChange(boolean increase){
-        Log.i("Starting Action Index", String.valueOf(actionIndex));
-        if (increase) {
-            actionIndex = actionIndex+1;
-        } else{
-            actionIndex = Math.max(actionIndex-1, 0);
-        }
-        Log.i("Action Index Changed", String.valueOf(actionIndex));
-        checkUndoRedo();
-    }
-
-    // Numbers that are too big occasionally break the grid view, we reduce the text size of larger numbers linearly (y=mx+b / y = -2.2x + 27)
-    public void fixTextSize(Button button){
-        int maxSize = 27;
-        float sizeModifier = -2.2f;
-        String text = (String) button.getText();
-        int textLength = text.length();
-        float newSize = Math.max((float) ((textLength * sizeModifier) + maxSize), 1);
-        button.setTextSize(newSize);
-        Log.i("New Text Size", "Button" + button.getId() + " size " + newSize);
-    }
-
-    // Returns the index of the first available button
-    public int findFirstOpenButton(){
-        for(int i = 0; i < gridButtons.size(); i++){
-            Button gridButton = (Button) findViewById(gridButtons.get(i));
-            // Return first invisible button
-            if(gridButton.getVisibility() == View.INVISIBLE){
-                return i;
-            }
-        }
-        // If none are invisible, return the oldest visible button
-        for(int i = 0; i < gridButtons.size(); i++){
-            Button gridButton = (Button) findViewById(gridButtons.get(i));
-            if (Integer.parseInt(gridButton.getTag().toString()) < changeCounter){
-                gridButton.setTag(changeCounter);
-                Log.i("New Tag Set", "Button" + gridButton.getId() + " tag " + changeCounter);
-                return i;
-            }
-        }
-        // All the buttons have been changed changeCounter amount of times, increase the change counter and re-find a button
-        changeCounter++;
-        Log.i("New Change Counter", String.valueOf(changeCounter));
-        return findFirstOpenButton();
-    }
-
-    // Clear the vars after equal button is pressed
-    public void clearVars(){
-        secondOperandEditText.setText("");
-        operator = null;
-    }
-
-    // Set the new operator whenever an operator is clicked
-    public void operClick(View view){
-
-        String operatorChosen = ((Button) view).getText().toString();
-
-        this.operator = operatorChosen;
-
-        checkEqualButton();
-
-        Log.i("New Operator Chosen", this.operator);
-
-    }
-
-    // This method checks if equal button should be enabled
-    public void checkEqualButton(){
-
-        boolean status = true;
-
-        if (operator == null){ // Disable if no operator has been chosen
-            status = false;
-        }
-        if(secondOperandText == null){ // To prevent an error for checking length if there is no text
-            secondOperandText = "";
-        }
-        if (secondOperandText.length() == 0) { // Disable if the second operand field is empty
-            status = false;
-        }
-
-        eqButton.setClickable(status);
-        Log.i("Equal Button Status", String.valueOf(status));
-    }
-
-    public void checkUndoRedo(){
-        if (actionIndex == 0) {
-            undoButton.setClickable(false);
-            Log.i("Undo Button Clickable", "Disabled");
-        } else if (((Button) findViewById(gridButtons.get(getActionIndex("before")))).getVisibility() == View.VISIBLE){
-            undoButton.setClickable(true);
-            Log.i("Undo Button Clickable", "Enabled");
-        } else{
-            undoButton.setClickable(false);
-            Log.i("Undo Button Clickable", "Disabled");
-        }
-        if(actionIndex == gridButtons.size()-1){
-            redoButton.setClickable(false);
-            Log.i("Redo Button Clickable", "Disabled");
-        } else if (((Button) findViewById(gridButtons.get(getActionIndex("next")))).getVisibility() == View.VISIBLE){
-            redoButton.setClickable(true);
-            Log.i("Redo Button Clickable", "Enabled");
-
-        } else {
-            redoButton.setClickable(false);
-            Log.i("Redo Button Clickable", "Disabled");
-        }
-    }
-
     public void undoClick(View view){
-        actionIndexChange(false);
-        actionOperation("undo");
-        setEmptyButtonInvis();
+        unReHandler.undoClick(view);
     }
     public void redoClick(View view){
-        actionIndexChange(true);
-        actionOperation("redo");
-        setEmptyButtonInvis();
+        unReHandler.redoClick(view);
     }
-
-    public void actionOperation(String identifier){
-        int index = actionIndex;
-        if(identifier.equals("redo")){
-            index = actionIndex-1;
-        }
-        if (index < 0){
-            index = gridButtons.size() + index;
-        }
-        View focusButton = findViewById(gridButtons.get(index));
-        Log.i("Applying " + identifier, String.valueOf(actionIndex));
-        boolean addButton = true;
-//        if(identifier.equals("redo")) {
-//            addButton = false;
-//        }
-        gridButtonClick(focusButton, identifier, addButton);
+    public void operClick(View view){
+        infoHandler.operClick(view);
     }
-
-    public int getActionIndex(String identifier){
-        if(identifier.equals("before")){
-            return actionIndex-1;
-        }
-        else{
-            return actionIndex;
-        }
+    public void gridButtonClick(View view){
+        gridHandler.gridButtonClick(view);
     }
 
     @Override
@@ -374,47 +43,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize an array of int IDs for the buttons in the grid view
-        int[] gridButtonsArray = new int[]{R.id.grid0, R.id.grid1, R.id.grid2, R.id.grid3, R.id.grid4, R.id.grid5, R.id.grid6, R.id.grid7, R.id.grid8, R.id.grid9, R.id.grid10, R.id.grid11, R.id.grid12, R.id.grid13, R.id.grid14, R.id.grid15, R.id.grid16, R.id.grid17, R.id.grid18, R.id.grid19, R.id.grid20, R.id.grid21, R.id.grid22, R.id.grid23};
-        for(int id : gridButtonsArray){
-            gridButtons.add(id);
-        }
+        eqHandler = new EqualHandler(this);
+        unReHandler = new UndoRedoHandler(this);
+        infoHandler = new InformationHandler(this);
+        gridHandler = new GridHandler(this);
 
-        // Set our button and the EditText variables
-        secondOperandEditText = (EditText) findViewById(R.id.secondOperandEdit);
-        undoButton = (Button) findViewById(R.id.undoButton);
-        redoButton = (Button) findViewById(R.id.redoButton);
-        eqButton = (Button) findViewById(R.id.eqButton);
+        eqHandler.setGridHandler(gridHandler);
+        eqHandler.setInfoHandler(infoHandler);
 
-        // Initialize the result text
-        resultTextView = (TextView) findViewById(R.id.resultTextView);
-        resultTextView.setText(resultTextView.getText() + Double.toString(result));
+        infoHandler.setEqualHandler(eqHandler);
 
-        // Initially disable Undo, Redo, and Equals buttons
-        eqButton.setClickable(false);
-        undoButton.setClickable(false);
-        redoButton.setClickable(false);
-        actionIndex = 0;
+        unReHandler.setGridHandler(gridHandler);
 
-        // Create the EditText listener
-        secondOperandEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                secondOperandText = s.toString();
-                checkEqualButton();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                secondOperandText = s.toString();
-                checkEqualButton();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                secondOperandText = s.toString();
-                checkEqualButton();
-            }
-        });
+        gridHandler.setInfoHandler(infoHandler);
+        gridHandler.setUnReHandler(unReHandler);
     }
+
+
+
 }

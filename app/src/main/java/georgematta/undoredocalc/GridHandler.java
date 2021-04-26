@@ -147,10 +147,10 @@ public class GridHandler extends AppCompatActivity {
         int index = 0;
         while(index < gridButtons.size()){
             Log.i("Finding Grid Index", String.valueOf(index));
-            if(gridButtons.get(index) != pressedButton.getId()){
-                index++;
+            if(gridButtons.get(index) == pressedButton.getId()){
+                return index;
             }
-            return index;
+            index++;
         }
 
         return -1;
