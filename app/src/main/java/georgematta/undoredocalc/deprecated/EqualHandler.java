@@ -1,12 +1,13 @@
-package georgematta.undoredocalc;
+package georgematta.undoredocalc.deprecated;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import georgematta.undoredocalc.R;
 
 public class EqualHandler extends AppCompatActivity {
 
@@ -24,16 +25,17 @@ public class EqualHandler extends AppCompatActivity {
         eqButton.setClickable(false);
     }
 
-    public void setInfoHandler(InformationHandler infoHandler){
+    public void setInfoHandler(InformationHandler infoHandler) {
         this.infoHandler = infoHandler;
     }
-    public void setGridHandler(GridHandler gridHandler){
+
+    public void setGridHandler(GridHandler gridHandler) {
         this.gridHandler = gridHandler;
     }
 
-    public void eqClick(View view){
+    public void eqClick(View view) {
 
-        infoHandler.applyOperation(view,false);
+        infoHandler.applyOperation(view, false);
 
         infoHandler.setResultTextViewText("Result = " + Double.toString(infoHandler.getResult()));
 
@@ -45,14 +47,14 @@ public class EqualHandler extends AppCompatActivity {
     }
 
     // This method checks if equal button should be enabled
-    public void checkEqualButton(){
+    public void checkEqualButton() {
 
         boolean status = true;
 
-        if (infoHandler.getOperator() == null){ // Disable if no operator has been chosen
+        if (infoHandler.getOperator() == null) { // Disable if no operator has been chosen
             status = false;
         }
-        if(infoHandler.getSecondOperandText() == null){ // To prevent an error for checking length if there is no text
+        if (infoHandler.getSecondOperandText() == null) { // To prevent an error for checking length if there is no text
             infoHandler.setSecondOperandText("");
         }
         if (infoHandler.getSecondOperandText().length() == 0) { // Disable if the second operand field is empty

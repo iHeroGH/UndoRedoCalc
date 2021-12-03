@@ -1,4 +1,4 @@
-package georgematta.undoredocalc;
+package georgematta.undoredocalc.deprecated;
 
 import android.app.Activity;
 import android.text.Editable;
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import georgematta.undoredocalc.R;
 
 public class InformationHandler extends AppCompatActivity {
 
@@ -29,17 +31,17 @@ public class InformationHandler extends AppCompatActivity {
 
     public InformationHandler(Activity activity) {
         this.activity = activity;
-        secondOperandEditText = (EditText) activity.findViewById(R.id.secondOperandEdit);
+        secondOperandEditText = (EditText) activity.findViewById(R.id.operandEdit);
         addListener();
         resultTextView = (TextView) activity.findViewById(R.id.resultTextView);
         resultTextView.setText(resultTextView.getText() + Double.toString(result));
     }
 
-    public void setEqualHandler(EqualHandler eqHandler){
+    public void setEqualHandler(EqualHandler eqHandler) {
         this.eqHandler = eqHandler;
     }
 
-    public void addListener(){
+    public void addListener() {
         // Create the EditText listener
         secondOperandEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -62,16 +64,16 @@ public class InformationHandler extends AppCompatActivity {
         });
     }
 
-    public String applyOperation(View view, boolean opposite){
+    public String applyOperation(View view, boolean opposite) {
         String applied = "";
         double buttonNum = 0;
         String buttonOperator = operator;
         // Apply the chosen operation on the provided second operand
         if (!opposite) {
-            if(((Button) view).getText().toString().equals("=")) {
+            if (((Button) view).getText().toString().equals("=")) {
                 buttonOperator = operator;
                 buttonNum = Double.parseDouble(secondOperandText);
-            } else{
+            } else {
                 Button gridButton = (Button) view;
                 String buttonText = gridButton.getText().toString();
                 buttonOperator = buttonText.substring(0, 1);
@@ -80,25 +82,25 @@ public class InformationHandler extends AppCompatActivity {
             switch (buttonOperator) {
                 case "+":
                     result += buttonNum;
-                    applied = "+" +  (int) buttonNum;
+                    applied = "+" + (int) buttonNum;
                     break;
                 case "-":
                     result -= buttonNum;
-                    applied = "-" +  (int) buttonNum;
+                    applied = "-" + (int) buttonNum;
                     break;
                 case "*":
                     result *= buttonNum;
-                    applied = "*" +  (int) buttonNum;
+                    applied = "*" + (int) buttonNum;
                     break;
                 case "/":
                     result /= buttonNum;
-                    applied = "/" +  (int) buttonNum;
+                    applied = "/" + (int) buttonNum;
                     break;
             }
         }
 
         // If we're removing something from the GridView
-        else{
+        else {
             Button gridButton = (Button) view;
             String buttonText = gridButton.getText().toString();
             buttonOperator = buttonText.substring(0, 1);
@@ -110,15 +112,15 @@ public class InformationHandler extends AppCompatActivity {
                     break;
                 case "-":
                     result += buttonNum;
-                    applied = "+" +  (int) buttonNum;
+                    applied = "+" + (int) buttonNum;
                     break;
                 case "*":
                     result /= buttonNum;
-                    applied = "/" +  (int) buttonNum;
+                    applied = "/" + (int) buttonNum;
                     break;
                 case "/":
                     result *= buttonNum;
-                    applied = "*" +  (int) buttonNum;
+                    applied = "*" + (int) buttonNum;
                     break;
             }
         }
@@ -128,13 +130,13 @@ public class InformationHandler extends AppCompatActivity {
     }
 
     // Clear the vars after equal button is pressed
-    public void clearVars(){
+    public void clearVars() {
         secondOperandEditText.setText("");
         operator = null;
     }
 
     // Set the new operator whenever an operator is clicked
-    public void operClick(View view){
+    public void operClick(View view) {
 
         String operatorChosen = ((Button) view).getText().toString();
 
@@ -166,11 +168,11 @@ public class InformationHandler extends AppCompatActivity {
         return result;
     }
 
-    public void setSecondOperandText(String str){
+    public void setSecondOperandText(String str) {
         secondOperandText = str;
     }
 
-    public void setResultTextViewText(String str){
+    public void setResultTextViewText(String str) {
         resultTextView.setText(str);
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".deprecated.MainActivity">
 
     <TextView
         android:id="@+id/resultTextView"
@@ -21,14 +21,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/secondOperandEdit"
+        android:id="@+id/operandEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
-        android:hint="Enter Second Operand"
+        android:hint="Enter Operand"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         android:onClick="undoClick"
         android:text="Undo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondOperandEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/operandEdit" />
 
     <Button
         android:id="@+id/redoButton"
@@ -54,7 +54,7 @@
         android:onClick="redoClick"
         android:text="Redo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondOperandEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/operandEdit" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -68,7 +68,7 @@
         app:layout_constraintBottom_toTopOf="@+id/gridLayout"
         app:layout_constraintEnd_toStartOf="@+id/redoButton"
         app:layout_constraintStart_toEndOf="@+id/undoButton"
-        app:layout_constraintTop_toBottomOf="@+id/secondOperandEdit">
+        app:layout_constraintTop_toBottomOf="@+id/operandEdit">
 
         <Button
             android:id="@+id/plusButton"
