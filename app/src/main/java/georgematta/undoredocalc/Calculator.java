@@ -52,4 +52,21 @@ public class Calculator {
     public boolean validOperator(){
         return operator != null;
     }
+
+    // Find the opposite operator
+    public static String oppositeOperator(String operator){
+        switch (operator){
+            case "+":
+                return "-";
+            case "-":
+                return "+";
+            case "*":
+                return "/";
+            case "/":
+                return "*";
+            default:
+                return "";
+        }
+    }
+
 }
