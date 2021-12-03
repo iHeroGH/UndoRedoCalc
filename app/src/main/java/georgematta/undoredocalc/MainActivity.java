@@ -61,17 +61,17 @@ public class MainActivity extends AppCompatActivity {
         operandEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                updateEqButton();
+                updateButtons();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateEqButton();
+                updateButtons();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateEqButton();
+                updateButtons();
             }
         });
     }
@@ -147,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
         // Reset to our original state (reset the inputs and disable equal button)
         resetOperandInput();
         calc.setOperator(null);
-        updateEqButton();
+        historyManager.resetIndex();
+        updateButtons();
     }
     // Operator + - * / Buttons
     public void operClick(View view) {
@@ -160,16 +161,35 @@ public class MainActivity extends AppCompatActivity {
         calc.setOperator(operatorChosen);
 
         // See if we need to enable the equals button
-        updateEqButton();
+        updateButtons();
     }
 
     // Undo Button
     public void undoClick(View view) {
         Log.i("Button Clicked", "Undo");
+
+        int currentIndex = historyManager.getCurrentIndex();
+
+        calculateFromButton(currentIndex, true, true);
+        historyManager.incrementIndex(1);
+        currentIndex = historyManager.getCurrentIndex();
+
+        Log.i("Index Changed", "New Index: " + Integer.toString(currentIndex));
+
+        updateUndoRedoButtons();
     }
     // Redo Button
     public void redoClick(View view) {
         Log.i("Button Clicked", "Redo");
+
+        historyManager.decrementIndex(1);
+        int currentIndex = historyManager.getCurrentIndex();
+
+        calculateFromButton(currentIndex, false, true);
+
+        Log.i("Index Changed", "New Index: " + Integer.toString(currentIndex));
+
+        updateUndoRedoButtons();
     }
 
     // Buttons on the Grid
@@ -180,34 +200,11 @@ public class MainActivity extends AppCompatActivity {
         int buttonIDPressed = view.getId();
         // Find the index of the button pressed
         int idIndex = linearSearch(gridButtonIDs, buttonIDPressed);
-        // Calculate the index to remove
-        int historySize = historyManager.size();
-        // The lower bound of a given window should start at 0
-        int lowerBound = 0;
-        // Unless the window has exceeded the size of the buttons
-        if (historySize > amtOfButtons) {
-            lowerBound = historySize - amtOfButtons; // In which case, we calculate a new lower bound
-        }
-        // And find the fixed index based on that lower bound
-        int targetIndex = lowerBound + idIndex;
 
-        // Extract the operator and number from the button pressed
-        String buttonText = gridButtons[targetIndex].getText().toString();
-        String buttonOperator = buttonText.substring(0, 1);
-        double buttonNum = Double.parseDouble(buttonText.substring(1));
-
-        // Set the calculator variables
-        calc.setNum(buttonNum);
-        calc.setOperator(Calculator.oppositeOperator(buttonOperator));
-
-        // Calculate the value
-        calc.calculate();
-
-        // Set the Result text to display the new value
-        setResultText(calc.getResult());
+        calculateFromButton(idIndex, true, false);
 
         // We remove the entry from the history, update the grid, and reset our values
-        historyManager.remove(targetIndex);
+        historyManager.remove(idIndex);
         updateGrid();
         resetOperandInput();
         calc.setOperator(null);
@@ -248,13 +245,66 @@ public class MainActivity extends AppCompatActivity {
         }
         return -1;
     }
+    // Perform a calculation based on a button
+    public void calculateFromButton(int buttonIndex, boolean opposite, boolean newButton){
+        // Extract the operator and number from the button pressed
+        String buttonText = gridButtons[buttonIndex].getText().toString();
+        String buttonOperator = buttonText.substring(0, 1);
+        double buttonNum = Double.parseDouble(buttonText.substring(1));
 
+        // Set the calculator variables
+        calc.setNum(buttonNum);
+        String operator = buttonOperator;
+        if (opposite) {
+            operator = Calculator.oppositeOperator(buttonOperator);
+        }
+        calc.setOperator(operator);
+
+        // Calculate the value
+        calc.calculate();
+
+        // Set the Result text to display the new value
+        setResultText(calc.getResult());
+
+        // Record the interaction
+        if (newButton) {
+            historyManager.add(calc.getOperator() + buttonNum);
+            updateGrid();
+        }
+    }
+
+    // Update the equals, undo, and redo buttons
+    public void updateButtons(){
+        updateEqButton();
+        updateUndoRedoButtons();
+    }
     // See if we need to update the equals button (enable/disable it)
     public void updateEqButton(){
         if (canEnableEquals()){
             enableButtons(eqButton);
         } else {
             disableButtons(eqButton);
+        }
+    }
+    // See if we can enable or disable the undo and redo buttons
+    public void updateUndoRedoButtons(){
+        /*
+        Redo:
+        We enable the Redo button if we are not at index 0
+        Undo:
+        We enable the Undo button if we are not at the last index
+         */
+        int index = historyManager.getCurrentIndex();
+
+        if(index != historyManager.size() - 1){
+            enableButtons(undoButton);
+        } else {
+            disableButtons(undoButton);
+        }
+        if (index != 0){
+            enableButtons(redoButton);
+        } else {
+            disableButtons(redoButton);
         }
     }
     // Check if we fulfil the requirements to enable the equals button
@@ -287,6 +337,8 @@ public class MainActivity extends AppCompatActivity {
                 fixTextSize(currButton);
             }
         }
+
+        updateUndoRedoButtons();
     }
 
     // Numbers that are too big break the GridView, we change the text size for larger numbers

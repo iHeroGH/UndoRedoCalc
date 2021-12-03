@@ -23,35 +23,34 @@ public class HistoryManager{
     }
     // Return the last 'window' elements in the index
     public List<String> getHistory(int window){
-        int historySize = history.size();
-        // Calculate the proper startIndex based on the given window
-        int startIndex = historySize - window;
-        if (startIndex < 0){
-            startIndex = 0;
+        // Return a subset of the list from the first to the windowth element
+        int maxSize = size();
+        if (window > maxSize){
+            window = maxSize;
         }
-
-        // Return a subset of the list from the startIndex to the last element
-        return history.subList(startIndex, historySize);
+        return history.subList(0, window);
     }
 
     // ARRAYLIST CONTROL
     // Returns the element at a specific index
     public String get(int index){
-        if (index >= history.size()){
+        if (index >= size()){
             return "";
         }
         return history.get(index);
     }
-    // Adds an element to the end of the list
+    // Adds an element to the start of the list
     public void add(String element){
-        history.add(element);
+        add(0, element);
     }
     // Adds an element to a specific index of the list
     public void add(int index, String element){
+        incrementIndex(1);
         history.add(index, element);
     }
     // Removes an element from the list given an index
     public void remove(int index){
+        decrementIndex(1);
         history.remove(index);
     }
     // Returns the total size of the history
@@ -61,20 +60,38 @@ public class HistoryManager{
 
     // INDEX CONTROL
     // Increment or decrement in the index
-    public void incrementIndex(){
-        this.currentIndex++;
+    public void incrementIndex(int amt){
+        if(amt == 0){
+            return;
+        }
+        if (!indexIsMax()) {
+            this.currentIndex++;
+            incrementIndex(amt-1);
+        }
     }
-    public void decrementIndex(){
-        this.currentIndex--;
+    public void decrementIndex(int amt){
+        if(amt == 0){
+            return;
+        }
+        if (!indexIsZero()){
+            this.currentIndex--;
+            decrementIndex(amt-1);
+        }
+    }
+    public void resetIndex(){
+        this.currentIndex = 0;
     }
 
     // CHECKS
     // Check if our index is at any bounds
     public boolean indexIsZero(){
-        return indexIsLimit(0);
+        return indexIsNum(0);
     }
-    public boolean indexIsLimit(int limit){
-        return this.currentIndex == limit;
+    public boolean indexIsMax(){
+        return indexIsNum(size());
+    }
+    public boolean indexIsNum(int num){
+        return this.currentIndex == num;
     }
 
 
