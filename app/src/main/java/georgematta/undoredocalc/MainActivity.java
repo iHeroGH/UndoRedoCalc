@@ -1,5 +1,6 @@
 package georgematta.undoredocalc;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -142,12 +143,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Record the interaction
         historyManager.add(calc.getOperator() + operand);
+        historyManager.resetIndex();
         updateGrid();
 
         // Reset to our original state (reset the inputs and disable equal button)
         resetOperandInput();
         calc.setOperator(null);
-        historyManager.resetIndex();
         updateButtons();
     }
     // Operator + - * / Buttons
@@ -171,7 +172,8 @@ public class MainActivity extends AppCompatActivity {
         int currentIndex = historyManager.getCurrentIndex();
 
         calculateFromButton(currentIndex, true, true);
-        historyManager.incrementIndex(1);
+        historyManager.incrementIndex();
+        highlightIndex();
         currentIndex = historyManager.getCurrentIndex();
 
         Log.i("Index Changed", "New Index: " + Integer.toString(currentIndex));
@@ -182,7 +184,8 @@ public class MainActivity extends AppCompatActivity {
     public void redoClick(View view) {
         Log.i("Button Clicked", "Redo");
 
-        historyManager.decrementIndex(1);
+        historyManager.decrementIndex();
+        highlightIndex();
         int currentIndex = historyManager.getCurrentIndex();
 
         calculateFromButton(currentIndex, false, true);
@@ -289,13 +292,19 @@ public class MainActivity extends AppCompatActivity {
     // See if we can enable or disable the undo and redo buttons
     public void updateUndoRedoButtons(){
         /*
+        Both:
+        We disable both if there are no buttons
         Redo:
         We enable the Redo button if we are not at index 0
         Undo:
         We enable the Undo button if we are not at the last index
          */
-        int index = historyManager.getCurrentIndex();
+        if (historyManager.size() == 0){
+            disableButtons(undoButton, redoButton);
+            return;
+        }
 
+        int index = historyManager.getCurrentIndex();
         if(index != historyManager.size() - 1){
             enableButtons(undoButton);
         } else {
@@ -339,6 +348,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         updateUndoRedoButtons();
+        highlightIndex();
+    }
+
+    // Highlight the current index of the undo/redo manager
+    public void highlightIndex(){
+        // First, we reset all the buttons to white
+        for(Button b : gridButtons){
+            b.setTextColor(Color.WHITE);
+        }
+
+        // Then we set the target button to red
+        int targetIndex = historyManager.getCurrentIndex();
+        gridButtons[targetIndex].setTextColor(Color.RED);
     }
 
     // Numbers that are too big break the GridView, we change the text size for larger numbers
