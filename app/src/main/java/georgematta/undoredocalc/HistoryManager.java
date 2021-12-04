@@ -26,7 +26,7 @@ public class HistoryManager{
      */
     private ArrayList<String> history;
     /**
-     * The int denoting the current index at which the undo-redo is targetting
+     * The int denoting the current index at which the undo-redo is targeting
      */
     private int currentIndex;
 

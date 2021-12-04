@@ -20,7 +20,7 @@ import java.util.List;
  * The MainActivity will use a Calculator object to run all calculations
  * The MainActivity also uses a HistoryManager object to store all
  * of the interactions made by the user
- * Info on each of thse classes will be within their own JavaDoc
+ * Info on each of these classes will be present within their own JavaDoc
  *
  * @author George Matta
  * @version 2.0
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * The Calculator calc which will be used for every operation, as well as to find
-     * the oposite operator of a given oprator (ex: + and - are opposites)
+     * the inverse of a given operator (ex: + and - are opposites)
      */
     private Calculator calc;
     /**
@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
         highlightIndex();
         currentIndex = historyManager.getCurrentIndex();
 
-        Log.i("Index Changed", "New Index: " + Integer.toString(currentIndex));
+        Log.i("Index Changed", "New Index: " + currentIndex);
 
         updateUndoRedoButtons();
     }
@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
 
         calculateFromButton(currentIndex, false, true);
 
-        Log.i("Index Changed", "New Index: " + Integer.toString(currentIndex));
+        Log.i("Index Changed", "New Index: " + currentIndex);
 
         updateUndoRedoButtons();
     }
@@ -379,9 +379,7 @@ public class MainActivity extends AppCompatActivity {
      * @return A string representing the text in the input text box
      */
     public String getOperand() {
-        String operandText = operandEditText.getText().toString();
-
-        return operandText;
+        return operandEditText.getText().toString();
     }
 
     /**
@@ -389,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
      * @param result The number we want to be displayed in the result output
      */
     private void setResultText(double result){
-        resultTextView.setText("Result = " + Double.toString(result));
+        resultTextView.setText("Result = " + result);
     }
 
     /**
@@ -547,7 +545,7 @@ public class MainActivity extends AppCompatActivity {
             disableButtons(undoButton);
         }
 
-        // We then check if we can enabl the redo button
+        // We then check if we can enable the redo button
         if (canEnableRedo(index)){
             enableButtons(redoButton);
         } else {
@@ -646,7 +644,7 @@ public class MainActivity extends AppCompatActivity {
                 entry = history.get(i); // The current history entry (ex: "+5", "/4", etc)
             }
             currButton = gridButtons[i]; // The button ID at the curr index
-            if(entry == null || entry == ""){ // If we don't have an entry, the button is invisible
+            if(entry == null || entry.equals("")){ // If we don't have an entry, the button is invisible
                 currButton.setVisibility(View.INVISIBLE);
             } else {
                 // Make the button visible and add the text to it
