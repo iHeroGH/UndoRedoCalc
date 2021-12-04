@@ -25,7 +25,6 @@ import java.util.List;
  * @author George Matta
  * @version 2.0
  */
-
 public class MainActivity extends AppCompatActivity {
 
     /**
