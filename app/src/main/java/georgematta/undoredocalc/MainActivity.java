@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Reset to our original state (reset the inputs and disable equal button)
         resetOperandInput();
-        calc.setOperator(null);
+        calc.resetOperator();
         updateButtons();
     }
 
@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
         historyManager.remove(idIndex);
         updateGrid();
         resetOperandInput();
-        calc.setOperator(null);
+        calc.resetOperator();
     }
 
     // I/O METHODS
