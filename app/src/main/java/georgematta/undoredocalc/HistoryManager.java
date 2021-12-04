@@ -124,12 +124,15 @@ public class HistoryManager{
         boolean largeIndex = index >= size;
         // We permit the list to be empty if we are adding onto it
         if(checkList) {
-            listExists = size > 0;
+            listExists = !isEmpty();
         } else {
             listExists = true;
         }
         // There is no list || negative index || index too large, respectively
         return !listExists && (negativeIndex || largeIndex);
+    }
+    public boolean isEmpty(){
+        return size() == 0;
     }
 
 }
